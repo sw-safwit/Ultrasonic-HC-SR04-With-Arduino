@@ -1,0 +1,35 @@
+#include <Servo.h>
+
+#define trigPin D5 // trigger pin for Ultrasonic HC-SR04
+#define echoPin D6 // echo pin for Ultrasonic HC-SR04
+
+void setup() {
+  Serial.begin(9600);
+
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+}
+
+void loop() {
+
+  float distance = (float)readUltrasonic();
+  Serial.println(distance);
+
+  delay(1000);
+}
+
+long readUltrasonic() {
+
+  long duration, distance;
+
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration / 2) / 29.1;
+  
+  delay(50);
+  return distance;
+}
